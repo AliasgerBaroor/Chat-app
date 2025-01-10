@@ -3,48 +3,48 @@ const { validatePassword } = require("../utils/auth");
 const jwt = require("jsonwebtoken")
 const userClient = require("../models/User");
 const ChatClient = require("../models/Chat")
-const http = require('http');
-const express = require("express");
+// const http = require('http');
+// const express = require("express");
 
-const { Server: SocketServer } = require('socket.io');
+// const { Server: SocketServer } = require('socket.io');
 
-const app = express()
-const server = http.createServer(app);
-const io = new SocketServer(server, {
-  cors: {
-    origin: '*',
-  },
-});
+// const app = express()
+// const server = http.createServer(app);
+// const io = new SocketServer(server, {
+//   cors: {
+//     origin: '*',
+//   },
+// });
 
 
-io.on("connection", (socket) => {
-    console.log("A chat participant connected:", socket.id);
+// io.on("connection", (socket) => {
+//     console.log("A chat participant connected:", socket.id);
   
-    socket.on("msg:typing", (typingData) => {
-      const { sender, state } = typingData;
-      // console.log(`${sender} is ${state ? "typing..." : "stopped typing."}`);
+//     socket.on("msg:typing", (typingData) => {
+//       const { sender, state } = typingData;
+//       // console.log(`${sender} is ${state ? "typing..." : "stopped typing."}`);
   
-      socket.broadcast.emit("msg:typing", { sender, state });
-    });
+//       socket.broadcast.emit("msg:typing", { sender, state });
+//     });
   
   
-    socket.on('msg:send', async (msg) => {
-        console.log("messages", msg)
-      try {
-        // const response_add_message = await ChatClient.create(msg);
-        // io.emit('msg:receive', response_add_message);
-        io.emit('msg:receive', msg);
-      } catch (error) {
-        console.error('Failed to save message:', error);
+//     socket.on('msg:send', async (msg) => {
+//         console.log("messages", msg)
+//       try {
+//         // const response_add_message = await ChatClient.create(msg);
+//         // io.emit('msg:receive', response_add_message);
+//         io.emit('msg:receive', msg);
+//       } catch (error) {
+//         console.error('Failed to save message:', error);
   
-        socket.emit('msg:error', { message: 'Failed to send message', error });
-      }
-    });
+//         socket.emit('msg:error', { message: 'Failed to send message', error });
+//       }
+//     });
   
-    socket.on("disconnect", () => {
-      console.log("A chat participant disconnected:", socket.id);
-    });
-  });
+//     socket.on("disconnect", () => {
+//       console.log("A chat participant disconnected:", socket.id);
+//     });
+//   });
   
 router.post("/authenticate", async (req, res) => {
     let { username, password } = req.body;
@@ -122,10 +122,10 @@ router.get("/data/:_id", async (req, res) => {
     }
 })
 
-const PORT = 9023;
-server.listen(PORT, () => {
-  console.log(`Socket Server is running on http://localhost:${PORT}`);
-});
+// const PORT = 9023;
+// server.listen(PORT, () => {
+//   console.log(`Socket Server is running on http://localhost:${PORT}`);
+// });
 
 
 module.exports = router;
